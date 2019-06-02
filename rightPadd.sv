@@ -6,6 +6,8 @@ module rightPadd (
 );
 
 logic [9:0] next_pos;
+
+//Make into a block
 logic [17:0] q;
 
 always_ff @(posedge clk, negedge rst_n)
