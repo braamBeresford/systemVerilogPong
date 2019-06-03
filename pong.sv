@@ -1,4 +1,4 @@
-module lab6 (input logic masterCLK, output logic hsync, 
+module pong (input logic masterCLK, output logic hsync, 
 			output logic vsync, output logic [3:0] blue,
 			output logic [3:0] red, output logic [3:0] green,
 			input logic reset_n, output logic [9:0] count,
