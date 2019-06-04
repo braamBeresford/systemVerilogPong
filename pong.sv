@@ -11,7 +11,7 @@ module pong (input logic masterCLK, output logic hsync,
 		logic [9:0] ball_y_pos;
 		logic [9:0] ball_x_pos;
 
-		
+			
 		clkDivider clkDiv(
 			.clk(masterCLK),
 			.reset_n(reset_n),
