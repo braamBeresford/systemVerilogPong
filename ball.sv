@@ -1,6 +1,7 @@
-module ball #(parameter right_pad_x = 540)(input logic clk,
+module ball #(parameter right_pad_x = 540, left_pad_x = 100)(input logic clk,
 	input logic reset_n,
 	input logic [9:0] right_paddle_pos,
+	input logic [9:0] left_paddle_pos,
 	output logic [9:0] ball_y_pos,
 	output logic [9:0] ball_x_pos );
 
@@ -28,6 +29,8 @@ always_ff @(posedge q[16], negedge reset_n) begin
 		ball_y_pos <= next_pos_y;
 		ball_x_pos <= next_pos_x;
 		if(ball_x_pos+6 >= right_pad_x && ball_y_pos+5 <= right_paddle_pos + 20 && ball_y_pos-5 >= right_paddle_pos - 20 && move_pos ==  1) move_pos = ~move_pos;
+		if(ball_x_pos-6 <= left_pad_x && ball_y_pos+5 <= left_paddle_pos + 20 && ball_y_pos-5 >= left_paddle_pos - 20 && move_pos ==  0) move_pos = ~move_pos;
+
 	end
 end
 

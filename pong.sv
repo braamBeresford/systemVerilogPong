@@ -79,6 +79,7 @@ module pong (input logic masterCLK, output logic hsync,
 			.clk(clk),
 			.reset_n(reset_n),
 			.right_paddle_pos(right_pad_y_pos),
+			.left_paddle_pos(left_pad_y_pos),
 			.ball_y_pos(ball_y_pos),
 			.ball_x_pos(ball_x_pos)
 			);
