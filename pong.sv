@@ -2,7 +2,7 @@ module pong (input logic masterCLK, output logic hsync,
 			output logic vsync, output logic [3:0] blue,
 			output logic [3:0] red, output logic [3:0] green,
 			input logic reset_n, output logic [9:0] count,
-			input logic down_switch, output logic [9:0] y_pos);
+			input logic right_down_switch, input logic left_down_switch);
 			
 		logic clk;
 		logic toOutputMux;
@@ -10,6 +10,8 @@ module pong (input logic masterCLK, output logic hsync,
 		logic [9:0] y_count;
 		logic [9:0] ball_y_pos;
 		logic [9:0] ball_x_pos;
+		logic [9:0] right_pad_y_pos;
+		logic [9:0] left_pad_y_pos;
 
 		//VGA Protocol
 		clkDivider clkDiv(
@@ -36,14 +38,15 @@ module pong (input logic masterCLK, output logic hsync,
 		assign toOutputMux = (x_count < 640) && (y_count < 480);
 		assign blue = 0;
 		
-		assign right_paddle_green = (x_count < 550 && x_count > 540 &&y_count <= y_pos+20  &&  y_count >= y_pos-20) ? 4'b111: 0;
+		assign right_paddle_green = (x_count < 550 && x_count > 540 && y_count <= right_pad_y_pos+20  &&  y_count >= right_pad_y_pos-20) ? 4'b111: 0;
 
-		assign left_paddle_green = (x_count < 550 && x_count > 540 &&y_count <= y_pos+20  &&  y_count >= y_pos-20) ? 4'b111: 0;
+		assign left_paddle_green = (x_count < 100 && x_count > 90 && y_count <= left_pad_y_pos+20  &&  y_count >= left_pad_y_pos-20) ? 4'b111: 0;
 
 				
 		assign ball_red = (x_count < ball_x_pos + 5 && x_count > ball_x_pos-5 && y_count <= ball_y_pos+5 && y_count >= ball_y_pos-5) ? 4'b111: 0;
 		
 		assign  paddle_green = right_paddle_green || left_paddle_green;
+		
 		enableMux greenMux(
 			.a(paddle_green),
 			.controlSig(toOutputMux),
@@ -60,16 +63,22 @@ module pong (input logic masterCLK, output logic hsync,
 		paddle rightPadd(
 			.clk(clk),
 			.rst_n(reset_n),
-			.mv_down(down_switch),
-			.y_pos(y_pos)
+			.mv_down(right_down_switch),
+			.y_pos(right_pad_y_pos)
 			);
 			
-
+		paddle leftPadd(
+			.clk(clk),
+			.rst_n(reset_n),
+			.mv_down(left_down_switch),
+			.y_pos(left_pad_y_pos)
+			);
+			
 
 		ball ball1(
 			.clk(clk),
 			.reset_n(reset_n),
-			.right_paddle_pos(y_pos),
+			.right_paddle_pos(right_pad_y_pos),
 			.ball_y_pos(ball_y_pos),
 			.ball_x_pos(ball_x_pos)
 			);
