@@ -1,4 +1,4 @@
-module rightPadd (
+module paddle (
 	input clk,    // Clock
 	input rst_n,  // Asynchronous reset active low
 	input mv_down,

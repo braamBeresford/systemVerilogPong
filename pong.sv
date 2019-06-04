@@ -54,7 +54,7 @@ module pong (input logic masterCLK, output logic hsync,
 			);
 		
 		
-		rightPadd paddle(
+		paddle rightPadd(
 			.clk(clk),
 			.rst_n(reset_n),
 			.mv_down(down_switch),
