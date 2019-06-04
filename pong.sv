@@ -36,13 +36,16 @@ module pong (input logic masterCLK, output logic hsync,
 		assign toOutputMux = (x_count < 640) && (y_count < 480);
 		assign blue = 0;
 		
-		assign right_paddle_green = (x_count < 550 && x_count > 540) ?
-							((y_count <= y_pos+20  &&  y_count >= y_pos-20) ? 4'b111: 0): 0 ;
+		assign right_paddle_green = (x_count < 550 && x_count > 540 &&y_count <= y_pos+20  &&  y_count >= y_pos-20) ? 4'b111: 0;
 
-		assign ball_red =  (x_count < ball_x_pos + 5 && x_count > ball_x_pos-5 && y_count <= ball_y_pos+5 && y_count >= ball_y_pos-5) ? 4'b111: 0;
+		assign left_paddle_green = (x_count < 550 && x_count > 540 &&y_count <= y_pos+20  &&  y_count >= y_pos-20) ? 4'b111: 0;
+
+				
+		assign ball_red = (x_count < ball_x_pos + 5 && x_count > ball_x_pos-5 && y_count <= ball_y_pos+5 && y_count >= ball_y_pos-5) ? 4'b111: 0;
 		
+		assign  paddle_green = right_paddle_green || left_paddle_green;
 		enableMux greenMux(
-			.a(right_paddle_green),
+			.a(paddle_green),
 			.controlSig(toOutputMux),
 			.d(green)
 			);
@@ -60,6 +63,8 @@ module pong (input logic masterCLK, output logic hsync,
 			.mv_down(down_switch),
 			.y_pos(y_pos)
 			);
+			
+
 
 		ball ball1(
 			.clk(clk),
