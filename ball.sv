@@ -1,7 +1,7 @@
 module ball #(parameter right_pad_x = 540)(input logic clk,
 	input logic reset_n,
 	input logic [9:0] right_paddle_pos,
-	output logic [9:0] ball_y_pos ,
+	output logic [9:0] ball_y_pos,
 	output logic [9:0] ball_x_pos );
 
 logic [9:0] next_pos_x;

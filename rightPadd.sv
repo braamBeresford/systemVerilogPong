@@ -1,7 +1,7 @@
 module rightPadd (
 	input clk,    // Clock
 	input rst_n,  // Asynchronous reset active low
-	input mv_up,
+	input mv_down,
 	output logic [9:0] y_pos
 );
 
@@ -27,7 +27,7 @@ end
 
  always_comb
 begin
-	if(!mv_up && y_pos <380) next_pos = y_pos + 1;
+	if(!mv_down && y_pos <380) next_pos = y_pos + 1;
 	else next_pos = y_pos;
 end
 
