@@ -36,6 +36,8 @@ always_ff @(posedge q[16], negedge reset_n) begin
 		//Left paddle
 		if(ball_x_pos-6 <= left_pad_x && ball_y_pos+5 <= left_paddle_pos + 20 && ball_y_pos-5 >= left_paddle_pos - 20 && move_pos_x ==  0) move_pos_x = ~move_pos_x;
 
+		//Wall detection
+		if((ball_y_pos+6 >= 480 && move_pos_y == 1) || (ball_y_pos- 6 <= 0 && move_pos_y == 0)) move_pos_y = ~move_pos_y;
 	end
 end
 

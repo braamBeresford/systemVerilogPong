@@ -2,7 +2,8 @@ module pong (input logic masterCLK, output logic hsync,
 			output logic vsync, output logic [3:0] blue,
 			output logic [3:0] red, output logic [3:0] green,
 			input logic reset_n, output logic [9:0] count,
-			input logic right_down_switch, input logic left_down_switch);
+			input logic right_down_switch, input logic left_down_switch,
+			input logic right_up_switch, input logic left_up_switch);
 			
 		logic clk;
 		logic toOutputMux;
@@ -64,6 +65,7 @@ module pong (input logic masterCLK, output logic hsync,
 			.clk(clk),
 			.rst_n(reset_n),
 			.mv_down(right_down_switch),
+			.mv_up(right_up_switch),
 			.y_pos(right_pad_y_pos)
 			);
 			
@@ -71,6 +73,7 @@ module pong (input logic masterCLK, output logic hsync,
 			.clk(clk),
 			.rst_n(reset_n),
 			.mv_down(left_down_switch),
+			.mv_up(left_up_switch),
 			.y_pos(left_pad_y_pos)
 			);
 			
