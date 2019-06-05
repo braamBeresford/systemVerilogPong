@@ -1,9 +1,11 @@
+
 module pong (input logic masterCLK, output logic hsync, 
 			output logic vsync, output logic [3:0] blue,
 			output logic [3:0] red, output logic [3:0] green,
-			input logic reset_n, output logic [9:0] count,
+			input logic reset_button_n,
 			input logic right_down_switch, input logic left_down_switch,
-			input logic right_up_switch, input logic left_up_switch);
+			input logic right_up_switch, input logic left_up_switch,
+			input logic reset_score_n);
 			
 		logic clk;
 		logic toOutputMux;
@@ -13,7 +15,9 @@ module pong (input logic masterCLK, output logic hsync,
 		logic [9:0] ball_x_pos;
 		logic [9:0] right_pad_y_pos;
 		logic [9:0] left_pad_y_pos;
+		logic end_of_round;
 
+		assign reset_n = end_of_round && reset_button_n;
 		//VGA Protocol
 		clkDivider clkDiv(
 			.clk(masterCLK),
@@ -34,6 +38,14 @@ module pong (input logic masterCLK, output logic hsync,
 			.vsync(vsync),
 			.x_count(x_count),
 			.y_count(y_count)
+			);
+
+
+		scoreKeeper referee(
+			.clk(clk),
+			.reset_n(end_of_round),
+			.reset_score_n(reset_score_n),
+			.ball_x_pos(ball_x_pos)
 			);
 		
 		assign toOutputMux = (x_count < 640) && (y_count < 480);

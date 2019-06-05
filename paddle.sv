@@ -20,7 +20,7 @@ always_ff @(posedge clk, negedge rst_n)
 
 always_ff @(posedge q[17],  negedge rst_n) begin 
 	if(~rst_n) begin
-		y_pos <= 100;
+		y_pos <= 240;
 	end else begin
 		y_pos <= next_pos;
 	end
