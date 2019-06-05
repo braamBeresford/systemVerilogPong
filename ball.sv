@@ -19,7 +19,7 @@ always_ff @(posedge clk, negedge reset_n)
 		q = q+1;
 		end
 
-always_ff @(posedge q[16], negedge reset_n) begin 
+always_ff @(posedge q[18], negedge reset_n) begin 
 	if(~reset_n) begin
 		ball_x_pos <= 100;
 		ball_y_pos <= 200;
