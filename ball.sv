@@ -30,11 +30,12 @@ always_ff @(posedge q[18], negedge reset_n) begin
 	begin
 		ball_y_pos <= next_pos_y;
 		ball_x_pos <= next_pos_x;
-		//Right paddle
-		if(ball_x_pos+6 >= right_pad_x && ball_y_pos+5 <= right_paddle_pos + 20 && ball_y_pos-5 >= right_paddle_pos - 20 && move_pos_x ==  1) move_pos_x = ~move_pos_x;
-		
+		//Right paddle; 6 = 5 width of box + 1
+		if(ball_x_pos+6 >= right_pad_x && move_pos_x ==  1) 
+			if((ball_y_pos+5 <= right_paddle_pos + 20 && ball_y_pos+5 >= right_paddle_pos - 20) || (ball_y_pos-5 <= right_paddle_pos + 20 && ball_y_pos-5 >= right_paddle_pos - 20)) move_pos_x = ~move_pos_x;
 		//Left paddle
-		if(ball_x_pos-6 <= left_pad_x && ball_y_pos+5 <= left_paddle_pos + 20 && ball_y_pos-5 >= left_paddle_pos - 20 && move_pos_x ==  0) move_pos_x = ~move_pos_x;
+		if(ball_x_pos-6 <= left_pad_x && move_pos_x ==  0 )
+			if((ball_y_pos+5 <= left_paddle_pos + 20 && ball_y_pos+5 >= left_paddle_pos - 20) || (ball_y_pos-5 <= left_paddle_pos + 20 && ball_y_pos-5 >= left_paddle_pos - 20)) move_pos_x = ~move_pos_x;
 
 		//Wall detection
 		if((ball_y_pos+6 >= 480 && move_pos_y == 1) || (ball_y_pos- 6 <= 0 && move_pos_y == 0)) move_pos_y = ~move_pos_y;
