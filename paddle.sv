@@ -18,7 +18,7 @@ always_ff @(posedge clk, negedge rst_n)
 		q <= q+1;
 		end
 
-always_ff @(posedge q[17],  negedge rst_n) begin 
+always_ff @(posedge q[15],  negedge rst_n) begin 
 	if(~rst_n) begin
 		y_pos <= 240;
 	end else begin
