@@ -28,8 +28,8 @@ end
 
  always_comb
 begin
-	if(!mv_down && y_pos <480) next_pos = y_pos + 1;
-	else if (!mv_up && y_pos > 0) next_pos = y_pos -1;
+	if(!mv_down && y_pos+ 20 <480) next_pos = y_pos + 1;
+	else if (!mv_up && y_pos-20 > 0) next_pos = y_pos -1;
 	else next_pos = y_pos;
 end
 
