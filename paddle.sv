@@ -15,7 +15,7 @@ always_ff @(posedge clk, negedge rst_n)
 	if(~rst_n) begin q<=0;end
 	else
 		begin 
-		q = q+1;
+		q <= q+1;
 		end
 
 always_ff @(posedge q[17],  negedge rst_n) begin 

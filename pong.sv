@@ -5,7 +5,8 @@ module pong (input logic masterCLK, output logic hsync,
 			input logic reset_button_n,
 			input logic right_down_switch, input logic left_down_switch,
 			input logic right_up_switch, input logic left_up_switch,
-			input logic reset_score_n);
+			input logic reset_score_n, output logic [6:0] right_segments,
+			output logic [6:0] left_segments);
 			
 		logic clk;
 		logic toOutputMux;
@@ -16,25 +17,25 @@ module pong (input logic masterCLK, output logic hsync,
 		logic [9:0] right_pad_y_pos;
 		logic [9:0] left_pad_y_pos;
 		logic end_of_round;
+		
+		logic [3:0] right_score;
+		logic [3:0] left_score;
 
 		assign reset_n = end_of_round && reset_button_n;
 		//VGA Protocol
 		clkDivider clkDiv(
 			.clk(masterCLK),
-//			.reset_n(reset_n),
 			.newClk(clk)
 			);
 			
 		horizCounter horizCounter1(
 			.clk(clk),
-//			.reset_n(reset_n),
 			.hsync(hsync),
 			.x_count(x_count)
 			);
 		
 		vertCounter vertCounter1(
 			.clk(clk),
-//			.reset_n(reset_n),
 			.vsync(vsync),
 			.x_count(x_count),
 			.y_count(y_count)
@@ -45,9 +46,23 @@ module pong (input logic masterCLK, output logic hsync,
 			.clk(clk),
 			.reset_n(end_of_round),
 			.reset_score_n(reset_score_n),
-			.ball_x_pos(ball_x_pos)
+			.ball_x_pos(ball_x_pos),
+			.right_score(right_score),
+			.left_score(left_score)
 			);
-		
+			
+		sevenSeg scoreboard_right( 
+			.data(right_score),
+			.segments(right_segments)
+			);
+
+
+		sevenSeg scoreboard_left( 
+			.data(left_score),
+			.segments(left_segments)
+			);
+
+
 		assign toOutputMux = (x_count < 640) && (y_count < 480);
 		assign blue = 0;
 		
