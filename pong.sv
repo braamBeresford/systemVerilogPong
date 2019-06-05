@@ -17,20 +17,20 @@ module pong (input logic masterCLK, output logic hsync,
 		//VGA Protocol
 		clkDivider clkDiv(
 			.clk(masterCLK),
-			.reset_n(reset_n),
+//			.reset_n(reset_n),
 			.newClk(clk)
 			);
 			
 		horizCounter horizCounter1(
 			.clk(clk),
-			.reset_n(reset_n),
+//			.reset_n(reset_n),
 			.hsync(hsync),
 			.x_count(x_count)
 			);
 		
 		vertCounter vertCounter1(
 			.clk(clk),
-			.reset_n(reset_n),
+//			.reset_n(reset_n),
 			.vsync(vsync),
 			.x_count(x_count),
 			.y_count(y_count)

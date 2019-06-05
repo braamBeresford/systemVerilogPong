@@ -21,8 +21,8 @@ always_ff @(posedge clk, negedge reset_n)
 
 always_ff @(posedge q[18], negedge reset_n) begin 
 	if(~reset_n) begin
-		ball_x_pos <= 100;
-		ball_y_pos <= 200;
+		ball_x_pos <= 320;
+		ball_y_pos <= 0;
 		move_pos_x <= 1;
 		move_pos_y <= 1;
 	end 
