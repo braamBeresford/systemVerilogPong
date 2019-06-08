@@ -41,40 +41,7 @@ module pong (input logic masterCLK, output logic hsync,
 			.y_count(y_count)
 			);
 
-
-		scoreKeeper referee(
-			.clk(clk),
-			.reset_n(end_of_round),
-			.reset_score_n(reset_score_n),
-			.ball_x_pos(ball_x_pos),
-			.right_score(right_score),
-			.left_score(left_score)
-			);
-			
-		sevenSeg scoreboard_right( 
-			.data(right_score),
-			.segments(right_segments)
-			);
-
-
-		sevenSeg scoreboard_left( 
-			.data(left_score),
-			.segments(left_segments)
-			);
-
-
-		assign toOutputMux = (x_count < 640) && (y_count < 480);
-		assign blue = 0;
-		
-		assign right_paddle_green = (x_count < 550 && x_count > 540 && y_count <= right_pad_y_pos+20  &&  y_count >= right_pad_y_pos-20) ? 4'b111: 0;
-
-		assign left_paddle_green = (x_count < 100 && x_count > 90 && y_count <= left_pad_y_pos+20  &&  y_count >= left_pad_y_pos-20) ? 4'b111: 0;
-
 				
-		assign ball_red = (x_count < ball_x_pos + 5 && x_count > ball_x_pos-5 && y_count <= ball_y_pos+5 && y_count >= ball_y_pos-5) ? 4'b111: 0;
-		
-		assign  paddle_green = right_paddle_green || left_paddle_green;
-		
 		enableMux greenMux(
 			.a(paddle_green),
 			.controlSig(toOutputMux),
@@ -86,6 +53,28 @@ module pong (input logic masterCLK, output logic hsync,
 			.controlSig(toOutputMux),
 			.d(red)
 			);
+			
+		//Game logic
+		scoreKeeper referee(
+			.clk(clk),
+			.reset_n(end_of_round),
+			.reset_score_n(reset_score_n),
+			.ball_x_pos(ball_x_pos),
+			.right_score(right_score),
+			.left_score(left_score)
+			);
+			
+		sevenSeg scoreboard_right( 
+			.data(right_score),
+			.segments(left_segments)
+			);
+
+
+		sevenSeg scoreboard_left( 
+			.data(left_score),
+			.segments(right_segments)
+			);
+	
 		
 		
 		paddle rightPadd(
@@ -115,4 +104,15 @@ module pong (input logic masterCLK, output logic hsync,
 			);
 		
 		
+		assign toOutputMux = (x_count < 640) && (y_count < 480);
+		assign blue = 0;
+		
+		assign right_paddle_green = (x_count < 550 && x_count > 540 && y_count <= right_pad_y_pos+20  &&  y_count >= right_pad_y_pos-20) ? 4'b1111: 0;
+
+		assign left_paddle_green = (x_count < 100 && x_count > 90 && y_count <= left_pad_y_pos+20  &&  y_count >= left_pad_y_pos-20) ? 4'b1111: 0;
+
+				
+		assign ball_red = (x_count < ball_x_pos + 5 && x_count > ball_x_pos-5 && y_count <= ball_y_pos+5 && y_count >= ball_y_pos-5) ? 4'b1111: 0;
+		
+		assign  paddle_green = right_paddle_green || left_paddle_green;
 endmodule

@@ -12,19 +12,24 @@ logic move_pos_y;
 
 //Make a block
 logic [25:0] q;
+logic random;
 always_ff @(posedge clk, negedge reset_n)
 	if(~reset_n) begin q<=0;end
 	else
 		begin 
 		q = q+1;
+		random = random +1;
 		end
 
-always_ff @(posedge q[15], negedge reset_n) begin 
+		
+always_ff @(posedge q[17], negedge reset_n) begin 
 	if(~reset_n) begin
 		ball_x_pos <= 320;
 		ball_y_pos <= 0;
-		move_pos_x <= 1;
+//		move_pos_x <= 1;
 		move_pos_y <= 1;
+		if(random == 1) move_pos_x <= 1;
+		else move_pos_x <= 0;
 	end 
 	else
 	begin
